@@ -49,7 +49,7 @@ class ExportStorageDriver(dl.BaseServiceRunner):
         """
 
         node_context = context.node
-        driver_id = node_context.metadata.get("customNodeConfig", dict()).get("driverId", None)
+        driver_id = node_context.metadata.get("customNodeConfig", dict()).get("storageDriverId", None)
         if driver_id is None:
             raise ValueError("Driver ID is not set")
         
