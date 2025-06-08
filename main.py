@@ -30,7 +30,7 @@ class ExportStorageDriver(dl.BaseServiceRunner):
             filters.system_space = True
             dataset = item.project.datasets.list(filters=filters)[0]
             print("System dataset already exists")
-        except (dl.exceptions.NotFound, IndexError):
+        except IndexError:
             driver = dl.drivers.get(driver_id=driver_id)
             dataset = item.project.datasets.create(dataset_name=driver.id, driver=driver)
             dataset.metadata["system"]["scope"] = "system"
@@ -52,7 +52,7 @@ class ExportStorageDriver(dl.BaseServiceRunner):
         driver_id = node_context.metadata.get("customNodeConfig", dict()).get("storageDriverId", None)
         if driver_id is None:
             raise ValueError("Driver ID is not set")
-        
+
         system_dataset = self._create_system_dataset(item=item, driver_id=driver_id)
 
         item_json = item.to_json()
@@ -60,16 +60,12 @@ class ExportStorageDriver(dl.BaseServiceRunner):
         filename, _ = os.path.splitext(item.name)
         filename = f"{filename}.json"
 
-        json_bytes = json.dumps(item_json, indent=2).encode('utf-8')
+        json_bytes = json.dumps(item_json, indent=2).encode("utf-8")
         json_buffer = BytesIO(json_bytes)
-        
-        upload_result = system_dataset.items.upload(
-            local_path=json_buffer,
-            remote_name=item.name,
-            remote_path=item.dir
-        )
+
+        upload_result = system_dataset.items.upload(local_path=json_buffer, remote_name=item.name, remote_path=item.dir)
         print(f"Data uploaded as '{item.name}' successfully using BytesIO")
-        
+
         if upload_result is not None:
             upload_result.delete()
         return upload_result
