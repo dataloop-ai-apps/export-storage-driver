@@ -58,8 +58,8 @@ class ExportStorageDriver(dl.BaseServiceRunner):
         """
         Create a system dataset linked to the storage driver.
         """
+        dataset_name = f"Export Storage Driver - {driver_id}"
         try:
-            dataset_name = f"Export Storage Driver - {driver_id}"
             # Use mutex lock for dataset creation/access
             if dataset_name not in self.dataset_locks:
                 self.dataset_locks[dataset_name] = threading.Lock()
