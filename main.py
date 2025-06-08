@@ -63,7 +63,7 @@ class ExportStorageDriver(dl.BaseServiceRunner):
         json_bytes = json.dumps(item_json, indent=2).encode("utf-8")
         json_buffer = BytesIO(json_bytes)
 
-        upload_result = system_dataset.items.upload(local_path=json_buffer, remote_name=item.name, remote_path=item.dir)
+        upload_result = system_dataset.items.upload(local_path=json_buffer, remote_name=filename, remote_path=item.dir)
         print(f"Data uploaded as '{item.name}' successfully using BytesIO")
 
         if upload_result is not None:
