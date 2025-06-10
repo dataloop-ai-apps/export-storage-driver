@@ -1,0 +1,113 @@
+{
+  "displayName": "Export Storage Driver",
+  "name": "export-storage-driver",
+  "scope": "public",
+  "version": "0.1.5",
+  "description": "Export storage driver to export data to a storage driver.",
+  "attributes": {
+    "Category": "Application",
+    "Provider": "Dataloop",
+    "Deployed By": "Dataloop",
+    "License": "MIT",
+    "Application Type": "Pipeline Node",
+    "Media Type": ["All Media Types"]
+  },
+  "codebase": {
+    "type": "git",
+    "gitUrl": "https://github.com/dataloop-ai-apps/export-storage-driver.git",
+    "gitTag": "0.1.5"
+  },
+  "components": {
+    "computeConfigs": [
+      {
+        "name": "export-storage-driver",
+        "runtime": {
+          "podType": "regular-xs",
+          "concurrency": 10,
+          "autoscaler": {
+            "type": "rabbitmq",
+            "minReplicas": 0,
+            "maxReplicas": 2,
+            "queueLength": 100
+          }
+        }
+      }
+    ],
+    "pipelineNodes": [
+        {
+            "name": "exportStorageDriver",
+            "displayName": "Export Storage Driver",
+            "invoke": {
+              "type": "function",
+              "namespace": "export-storage-driver.export-storage-driver.export_data"
+            },
+            "categories": ["data"],
+            "scope": "project",
+            "configuration": {
+              "fields": [
+                {
+                  "name": "exportStorageDriver",
+                  "title": "Node Name",
+                  "props": {
+                    "title": true,
+                    "type": "string",
+                    "default": "Export Storage Driver",
+                    "required": true
+                  },
+                  "rules": [
+                    {
+                      "type": "required",
+                      "effect": "error"
+                    }
+                  ],
+                  "widget": "dl-input"
+                },
+                {
+                  "name": "storageDriverId",
+                  "title": "Storage Driver ID",
+                  "props": {
+                    "title": true,
+                    "type": "string",
+                    "default": "",
+                    "required": true,
+                    "tooltip": "The ID of the storage driver to export the data to."
+                  },
+                  "rules": [
+                    {
+                      "type": "required",
+                      "effect": "error"
+                    }
+                  ],
+                  "widget": "dl-input"
+                }
+              ]
+            }
+          }
+    ],
+    "modules": [
+      {
+        "name": "export-storage-driver",
+        "entryPoint": "main.py",
+        "className": "ExportStorageDriver",
+        "functions": [
+          {
+            "name": "export_data",
+            "input": [
+              {
+                "type": "Item",
+                "name": "item"
+              }
+            ],
+            "output": [
+              {
+                "type": "Item",
+                "name": "item"
+              }
+            ],
+            "displayIcon": "icon-dl-export"
+          }
+        ]
+      }
+    ]
+  }
+}
