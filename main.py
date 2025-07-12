@@ -18,18 +18,13 @@ class ExportStorageDriver(dl.BaseServiceRunner):
         self.dataset_locks = {}  # Dictionary to store locks for each dataset
         self._initialize_dataset_locks()
 
-        # Start the cleaning process from init
+        # Start the cleaning process from init (non-blocking)
         print("Starting dataset cleaning in separate process from init...")
         cleaning_process = multiprocessing.Process(target=self.clean_datasets_process)
         cleaning_process.start()
-
-        # Wait for the process to complete
-        cleaning_process.join()
-
-        if cleaning_process.exitcode == 0:
-            print("Dataset cleaning process completed successfully")
-        else:
-            print(f"Dataset cleaning process failed with exit code: {cleaning_process.exitcode}")
+        
+        # Don't wait for the process to complete - let it run in background
+        print("Dataset cleaning process started in background")
 
     def _initialize_dataset_locks(self):
         """
