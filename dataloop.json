@@ -2,7 +2,7 @@
   "displayName": "Export Storage Driver",
   "name": "export-storage-driver",
   "scope": "public",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Export storage driver to export data to a storage driver.",
   "attributes": {
     "Category": "Application",
@@ -15,7 +15,7 @@
   "codebase": {
     "type": "git",
     "gitUrl": "https://github.com/dataloop-ai-apps/export-storage-driver.git",
-    "gitTag": "0.1.6"
+    "gitTag": "0.1.7"
   },
   "components": {
     "computeConfigs": [
