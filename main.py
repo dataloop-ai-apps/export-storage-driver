@@ -103,7 +103,11 @@ class ExportStorageDriver(dl.BaseServiceRunner):
         print(f"Data uploaded as '{item.name}' successfully using BytesIO")
 
         if upload_result is not None:
-            upload_result.delete()
+            try:
+                upload_result.delete()
+            except dl.exceptions.NotFound:
+                logger.info(f"Item {item.id} not found in dataset {system_dataset.name} - already deleted")
+
         return upload_result
 
     def clean_datasets_process(self):
