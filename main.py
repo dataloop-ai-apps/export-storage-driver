@@ -131,8 +131,8 @@ class ExportStorageDriver(dl.BaseServiceRunner):
 
             print("Dataset cleaning completed in separate process")
         except Exception as e:
-            logger.error(f"Error in clean_datasets_process: {e}")
-            print(f"Error cleaning datasets: {e}")
+            logger.error("Error in clean_datasets_process: %s", type(e).__name__)
+            print(f"Error cleaning datasets: {type(e).__name__}")
 
 
 def main():
